@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React from "react";
 
 import Header from "./components/Header";
 import AddedFeatures from "./components/AddedFeatures";
@@ -7,11 +7,13 @@ import Total from "./components/Total";
 
 // My imports
 import { connect } from "react-redux";
-import { REMOVE_FEATURE, ADD_FEATURE } from "./actions.js/action";
-import { reducer, initialState } from "./reducers/reducer";
+// import { REMOVE_FEATURE, ADD_FEATURE } from "./actions.js/action";
+// import { reducer, initialState } from "./reducers/reducer";
 
-const App = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const App = props => {
+  console.log("state is now coming from reducer.js into App.js", props)
+  // const [state, dispatch] = useReducer(reducer, initialState);
+
   // const state = {
   //   additionalPrice: 0,
   //   car: {
@@ -29,28 +31,40 @@ const App = () => {
   //   ]
   // };
 
-  const removeFeature = item => {
-    // dispatch an action here to remove an item
-    dispatch({ type: REMOVE_FEATURE, payload: item })
-  };
+  // const removeFeature = item => {
+  //   // dispatch an action here to remove an item
+  //   dispatch({ type: REMOVE_FEATURE, payload: item })
+  // };
 
-  const addFeature = item => {
-    // dipsatch an action here to add an item
-    dispatch({ type: ADD_FEATURE, payload: item })
-  };
+  // const addFeature = item => {
+  //   // dipsatch an action here to add an item
+  //   dispatch({ type: ADD_FEATURE, payload: item })
+  // };
 
   return (
     <div className="boxes">
       <div className="box">
-        <Header car={state.car} />
-        <AddedFeatures car={state.car} removeFeature={removeFeature}/>
+        <Header car={props.car} />
+        <AddedFeatures car={props.car} />
       </div>
       <div className="box">
-        <AdditionalFeatures additionalFeatures={state.additionalFeatures} addFeature={addFeature}/>
-        <Total car={state.car} additionalPrice={state.additionalPrice} />
+        <AdditionalFeatures additionalFeatures={props.additionalFeatures} />
+        <Total car={props.car} additionalPrice={props.additionalPrice} />
       </div>
     </div>
   );
 };
 
-export default connect()(App);
+const mapStateToProps = state => {
+  // code is still a bit wonky, so I am changing things around. 
+  //  think it would be best if I made state connect to our redux state coming from reducer.js 
+  // and grab the item and return them from the store and rename them as props...
+  console.log("MapStateToProps: ", state);
+  return {
+    additionalPrice: state.additionalPrice,
+    car: state.car,
+    additionalFeatures: state.additionalFeatures
+  };
+};
+
+export default connect(mapStateToProps, {})(App);

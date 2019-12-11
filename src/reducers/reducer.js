@@ -2,6 +2,8 @@ import { REMOVE_FEATURE, ADD_FEATURE } from "../actions.js/action";
 
 export const initialState = {
   // I moved this from App.js so that I could set state = initialState
+  // code was a bit wonky because of doing this so I am just going to rename everything in 
+  // App.js to props.whatever instead of state.whatever
   additionalPrice: 0,
   car: {
     price: 26395,
@@ -18,33 +20,36 @@ export const initialState = {
   ]
 };
 
+
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_FEATURE:
-          return {
-            ...state,
-            additionalPrice: state.additionalPrice + action.payload,
-            car: {
-              ...state.car,
-              features: [...state.car.features, action.payload]
-            },
-            additionalFeatures: state.additionalFeatures.filter(feature => {
-              return feature !== action.payload;
+      case ADD_FEATURE:
+        console.log("It's working, it's working!", action.payload);
+        return {
+          ...state,
+          additionalPrice: state.additionalPrice + action.payload.price,
+          car: {
+            ...state.car,
+            features: [...state.car.features, action.payload]
+          },
+          additionalFeatures: state.additionalFeatures.filter(feature => {
+            return feature.id !== action.payload.id;
+          })
+        };
+      case REMOVE_FEATURE:
+        console.log(`REMOVE FEATURE: `, action.payload);
+        return {
+          ...state,
+          additionalPrice: state.additionalPrice - action.payload.price,
+          car: {
+            ...state.car,
+            features: state.car.features.filter(feature => {
+              return feature.id !== action.payload.id;
             })
-          };
-        case REMOVE_FEATURE:
-          return {
-            ...state,
-            additionalPrice: state.additionalPrice - action.payload,
-            car: {
-              ...state.car,
-              features: state.car.features.filter(feature => {
-                return feature.id !== action.payload.id;
-              })
-            },
-            additionalFeatures: [...state.additionalFeatures, action.payload]
-          };
-        default:
-          return state;
-      }
-};
+          },
+          additionalFeatures: [...state.additionalFeatures, action.payload]
+        };
+      default:
+        return state;
+    }
+  };
