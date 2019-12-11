@@ -7,7 +7,7 @@ import Total from "./components/Total";
 
 // My imports
 import { connect } from "react-redux";
-import { REMOVE_FEATURE } from "./actions.js/action";
+import { REMOVE_FEATURE, ADD_FEATURE } from "./actions.js/action";
 import { reducer, initialState } from "./reducers/reducer";
 
 const App = () => {
@@ -34,8 +34,9 @@ const App = () => {
     dispatch({ type: REMOVE_FEATURE, payload: item })
   };
 
-  const buyItem = item => {
+  const addFeature = item => {
     // dipsatch an action here to add an item
+    dispatch({ type: ADD_FEATURE, payload: item })
   };
 
   return (
@@ -45,7 +46,7 @@ const App = () => {
         <AddedFeatures car={state.car} removeFeature={removeFeature}/>
       </div>
       <div className="box">
-        <AdditionalFeatures additionalFeatures={state.additionalFeatures} />
+        <AdditionalFeatures additionalFeatures={state.additionalFeatures} addFeature={addFeature}/>
         <Total car={state.car} additionalPrice={state.additionalPrice} />
       </div>
     </div>
