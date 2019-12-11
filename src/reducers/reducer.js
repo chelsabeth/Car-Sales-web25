@@ -2,6 +2,6 @@ export const initialState = {
 
 }
 
-export const reducer = () => {
-    
+export const reducer = (state, action) => {
+
 }
