@@ -24,10 +24,9 @@ export const initialState = {
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
       case ADD_FEATURE:
-        console.log("It's working, it's working!", action.payload);
         return {
           ...state,
-          additionalPrice: state.additionalPrice + action.payload.price,
+          additionalPrice: state.additionalPrice += action.payload.price,
           car: {
             ...state.car,
             features: [...state.car.features, action.payload]
@@ -37,10 +36,9 @@ export const reducer = (state = initialState, action) => {
           })
         };
       case REMOVE_FEATURE:
-        console.log(`REMOVE FEATURE: `, action.payload);
         return {
           ...state,
-          additionalPrice: state.additionalPrice - action.payload.price,
+          additionalPrice: state.additionalPrice -= action.payload.price,
           car: {
             ...state.car,
             features: state.car.features.filter(feature => {
